@@ -1,5 +1,5 @@
 import SearchBar from '../../components/search-bar/search-bar';
-import style from './search.module.css';
+import './search.scss';
 
 import { List } from '../../models/models';
 
@@ -9,7 +9,7 @@ const Search = () => {
   };
   return (
     <>
-      <header className={style['header']}>
+      <header className="search-header">
         <SearchBar onSearch={onSearch} />
       </header>
       <div>Search Page</div>
