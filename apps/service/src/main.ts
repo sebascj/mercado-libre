@@ -1,11 +1,16 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import { getItemsList, getItemDetail } from './base/base';
 
 const app = express();
 const jsonParser = bodyParser.json();
+const corsOptions = {
+  origin: ['http://localhost:4200'],
+};
 
 app.use(jsonParser);
+app.use(cors(corsOptions));
 
 app.get('/items', async (req, res) => {
   console.log(req.query);

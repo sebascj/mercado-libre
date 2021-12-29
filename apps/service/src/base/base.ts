@@ -4,7 +4,7 @@ import { parsePrice } from '../utils/utils';
 
 const baseApi = 'https://api.mercadolibre.com';
 
-const getRequest = (url: string): Promise<any> => {
+const getRequest = <T>(url: string): Promise<T> => {
   return new Promise((resolve, reject) => {
     https
       .get(url, (res) => {
@@ -38,25 +38,29 @@ const getRequest = (url: string): Promise<any> => {
   });
 };
 
-const getCategory = (id: string): Promise<any> => {
+const getCategory = <T>(id: string): Promise<T> => {
   const url = `${baseApi}/categories/${id}`;
   return getRequest(url);
 };
 
-const getDescription = (id: string): Promise<any> => {
+const getDescription = <T>(id: string): Promise<T> => {
   const url = `${baseApi}/items/${id}/description`;
   return getRequest(url);
 };
 
 const getItemsList = (query = ''): Promise<List> => {
   return new Promise((resolve, reject) => {
+    if (!query) {
+      reject({ statusCode: 400, message: 'Search query cannot be empty' });
+    }
     const url = `${baseApi}/sites/MLA/search?q=${query}`;
     getRequest(url)
-      .then((data) => {
+      .then((data: any) => {
         const categoryFilters = data.filters.filter(
           (filter) => filter.id === 'category'
         )[0];
         const categories: string[] =
+          categoryFilters &&
           categoryFilters.values[0].path_from_root.map((type) => type.name);
         const items: Item[] = data.results.map(
           ({
@@ -89,7 +93,7 @@ const getItemsList = (query = ''): Promise<List> => {
             name: 'Sebastian',
             lastname: 'Clavijo',
           },
-          categories,
+          categories: categories || [],
           items,
         };
         resolve(list);
@@ -133,11 +137,11 @@ const getItemDetail = (id: string): Promise<Details> => {
           return getCategory(category_id);
         }
       )
-      .then((categoryData) => {
+      .then((categoryData: { name: string }) => {
         category = categoryData.name;
         return getDescription(id);
       })
-      .then((descriptionData) => {
+      .then((descriptionData: { plain_text: string }) => {
         item.description = descriptionData.plain_text;
         const details: Details = {
           author: {
