@@ -21,4 +21,15 @@
     background-color: white;
     padding: var(--gutter);
   }
+  &__hr {
+    border: 1px solid var(--gray);
+    margin: var(--gutter) 0;
+  }
+}
+.result {
+  &__image {
+    width: 18rem;
+    height: 18rem;
+    border-radius: 4px;
+  }
 }

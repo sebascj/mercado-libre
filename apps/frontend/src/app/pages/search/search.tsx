@@ -4,6 +4,17 @@ import './search.scss';
 
 import { List, Item } from '../../models/models';
 
+const ItemBox = ({ item }: { item: Item }) => {
+  return (
+    <>
+      <div className="result">
+        <img className="result__image" src={item.picture} alt="Result" />
+      </div>
+      <hr className="search__hr" />
+    </>
+  );
+};
+
 const Search = () => {
   const [list, setList] = useState<List>();
   const onSearch = (list: List) => {
@@ -14,9 +25,9 @@ const Search = () => {
   if (list) {
     listTemplate = (
       <div className="search__box">
-        {list.items.map((item: Item, index) => {
-          return <div key={'item_' + index}>{item.title}</div>;
-        })}
+        {list.items.map((item: Item, index) => (
+          <ItemBox key={'item_' + index} item={item} />
+        ))}
       </div>
     );
   }
