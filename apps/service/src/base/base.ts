@@ -1,5 +1,6 @@
 import * as https from 'https';
-import { List, Item } from '../models/models';
+import { List, Item, Details } from '../models/models';
+import { parsePrice } from '../utils/utils';
 
 const baseApi = 'https://api.mercadolibre.com';
 
@@ -12,9 +13,8 @@ const getRequest = (url: string): Promise<any> => {
           const error = new Error(
             'Request Failed.\n' + `Status Code: ${statusCode}`
           );
-          console.error(error.message);
           res.resume();
-          reject(error);
+          reject({ message: error.message, statusCode });
         }
         res.setEncoding('utf-8');
         let rawData = '';
@@ -38,11 +38,21 @@ const getRequest = (url: string): Promise<any> => {
   });
 };
 
+const getCategory = (id: string): Promise<any> => {
+  const url = `${baseApi}/categories/${id}`;
+  return getRequest(url);
+};
+
+const getDescription = (id: string): Promise<any> => {
+  const url = `${baseApi}/items/${id}/description`;
+  return getRequest(url);
+};
+
 const getItemsList = (query = ''): Promise<List> => {
   return new Promise((resolve, reject) => {
     const url = `${baseApi}/sites/MLA/search?q=${query}`;
-    getRequest(url).then(
-      (data) => {
+    getRequest(url)
+      .then((data) => {
         const categoryFilters = data.filters.filter(
           (filter) => filter.id === 'category'
         )[0];
@@ -58,8 +68,7 @@ const getItemsList = (query = ''): Promise<List> => {
             shipping,
             condition,
           }) => {
-            const decimalStr = (price + '').split('.')[1];
-            const decimals = parseFloat(`.${decimalStr}`);
+            const parsedPrice = parsePrice(price);
             const item: Item = {
               id,
               title,
@@ -68,8 +77,8 @@ const getItemsList = (query = ''): Promise<List> => {
               free_shipping: shipping.free_shipping,
               price: {
                 currency: currency_id,
-                decimals,
-                amount: Math.trunc(price),
+                decimals: parsedPrice.decimals,
+                amount: parsedPrice.amount,
               },
             };
             return item;
@@ -84,17 +93,64 @@ const getItemsList = (query = ''): Promise<List> => {
           items,
         };
         resolve(list);
-      },
-      (e) => {
-        reject(e);
-      }
-    );
+      })
+      .catch((e) => reject(e));
   });
 };
 
-const getItemsDetail = (id: string) => {
-  const url = `${baseApi}/items/${id}/description`;
-  return getRequest(url);
+const getItemDetail = (id: string): Promise<Details> => {
+  return new Promise((resolve, reject) => {
+    const url = `${baseApi}/items/${id}`;
+    let category = '';
+    let item: Item;
+    getRequest(url)
+      .then(
+        ({
+          id,
+          category_id,
+          title,
+          currency_id,
+          price,
+          pictures,
+          shipping,
+          condition,
+          sold_quantity,
+        }) => {
+          const parsedPrice = parsePrice(price);
+          item = {
+            id,
+            title,
+            condition,
+            picture: pictures[0].secure_url,
+            free_shipping: shipping.free_shipping,
+            price: {
+              currency: currency_id,
+              amount: parsedPrice.amount,
+              decimals: parsedPrice.decimals,
+            },
+            sold_quantity,
+          };
+          return getCategory(category_id);
+        }
+      )
+      .then((categoryData) => {
+        category = categoryData.name;
+        return getDescription(id);
+      })
+      .then((descriptionData) => {
+        item.description = descriptionData.plain_text;
+        const details: Details = {
+          author: {
+            name: 'Sebastian',
+            lastname: 'Clavijo',
+          },
+          category,
+          item,
+        };
+        resolve(details);
+      })
+      .catch((e) => reject(e));
+  });
 };
 
-export { getItemsList, getItemsDetail };
+export { getItemsList, getItemDetail };

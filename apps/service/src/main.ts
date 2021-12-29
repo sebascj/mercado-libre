@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { getItemsList, getItemsDetail } from './base/base';
+import { getItemsList, getItemDetail } from './base/base';
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -14,12 +14,17 @@ app.get('/items', async (req, res) => {
     const itemsList = await getItemsList(query);
     res.send(itemsList);
   } catch (e) {
-    res.send(e);
+    res.status(e.statusCode || 500).send({ message: e.message });
   }
 });
-app.get('/items/:id', (req, res) => {
-  console.log(req.params);
-  res.send({ message: 'Welcome to service!' });
+app.get('/items/:id', async (req, res) => {
+  try {
+    const id: string = req.params.id;
+    const itemDetail = await getItemDetail(id);
+    res.send(itemDetail);
+  } catch (e) {
+    res.status(e.statusCode || 500).send({ message: e.message });
+  }
 });
 
 const port = process.env.port || 3333;

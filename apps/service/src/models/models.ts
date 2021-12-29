@@ -9,6 +9,8 @@ export type Item = {
   picture: string;
   condition: string;
   free_shipping: boolean;
+  sold_quantity?: number;
+  description?: string;
 };
 
 export type List = {
@@ -18,4 +20,13 @@ export type List = {
   };
   categories: string[];
   items: Item[];
+};
+
+export type Details = {
+  author: {
+    name: string;
+    lastname: string;
+  };
+  category: string;
+  item: Item;
 };
