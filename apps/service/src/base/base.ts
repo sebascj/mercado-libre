@@ -48,12 +48,15 @@ const getDescription = <T>(id: string): Promise<T> => {
   return getRequest(url);
 };
 
-const getItemsList = (query = ''): Promise<List> => {
+const getItemsList = (query: string, limit: string): Promise<List> => {
   return new Promise((resolve, reject) => {
     if (!query) {
       reject({ statusCode: 400, message: 'Search query cannot be empty' });
     }
-    const url = `${baseApi}/sites/MLA/search?q=${query}`;
+    let url = `${baseApi}/sites/MLA/search?q=${query}`;
+    if (limit) {
+      url = `${url}&limit=${limit}`;
+    }
     getRequest(url)
       .then((data: any) => {
         const categoryFilters = data.filters.filter(

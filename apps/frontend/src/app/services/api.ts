@@ -23,7 +23,7 @@ const baseRequest = async <T>({
 };
 
 const getItemsList = ({ search = '' }: { search: string }): Promise<List> => {
-  const resource = `items?search=${search}`;
+  const resource = `items?search=${search}&limit=4`;
   return baseRequest({ resource });
 };
 export { getItemsList };

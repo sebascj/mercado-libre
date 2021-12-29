@@ -16,7 +16,8 @@ app.get('/items', async (req, res) => {
   console.log(req.query);
   try {
     const query: string = req.query.search as string;
-    const itemsList = await getItemsList(query);
+    const limit: string = req.query.limit as string;
+    const itemsList = await getItemsList(query, limit);
     res.send(itemsList);
   } catch (e) {
     res.status(e.statusCode || 500).send({ message: e.message });

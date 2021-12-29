@@ -1,12 +1,26 @@
+import { useState } from 'react';
 import SearchBar from '../../components/search-bar/search-bar';
 import './search.scss';
 
-import { List } from '../../models/models';
+import { List, Item } from '../../models/models';
 
 const Search = () => {
+  const [list, setList] = useState<List>();
   const onSearch = (list: List) => {
-    console.log(list);
+    setList(list);
   };
+
+  let listTemplate;
+  if (list) {
+    listTemplate = (
+      <div className="search__box">
+        {list.items.map((item: Item, index) => {
+          return <div key={'item_' + index}>{item.title}</div>;
+        })}
+      </div>
+    );
+  }
+
   return (
     <>
       <header className="search__header">
@@ -17,7 +31,7 @@ const Search = () => {
         />
         <SearchBar className="search__bar" onSearch={onSearch} />
       </header>
-      <div className="search__body">Search Page</div>
+      <div className="search__body">{listTemplate}</div>
     </>
   );
 };
