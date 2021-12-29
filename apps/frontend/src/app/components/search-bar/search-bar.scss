@@ -17,8 +17,13 @@
     padding: 1rem 1.6rem;
     border-top-right-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem;
+    background-color: var(--gray);
+    cursor: pointer;
   }
   &__image {
     width: 2rem;
+  }
+  button:disabled {
+    cursor: not-allowed;
   }
 }
