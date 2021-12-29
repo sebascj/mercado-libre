@@ -1,4 +1,18 @@
-.search-header {
-  background-color: var(--yellow);
-  padding: 1rem 0;
+.search {
+  &__header {
+    background-color: var(--yellow);
+    padding: 1rem 8rem;
+    display: flex;
+  }
+  &__bar {
+    flex: 2;
+  }
+  &__body {
+    background-color: var(--gray);
+    padding: 1rem 8rem;
+  }
+  &__logo {
+    width: 5rem;
+    margin-right: 2rem;
+  }
 }

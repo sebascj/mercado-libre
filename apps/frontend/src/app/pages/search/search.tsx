@@ -9,10 +9,15 @@ const Search = () => {
   };
   return (
     <>
-      <header className="search-header">
-        <SearchBar onSearch={onSearch} />
+      <header className="search__header">
+        <img
+          className="search__logo"
+          src="../../assets/Logo_ML@2x.png"
+          alt="Logo"
+        />
+        <SearchBar className="search__bar" onSearch={onSearch} />
       </header>
-      <div>Search Page</div>
+      <div className="search__body">Search Page</div>
     </>
   );
 };

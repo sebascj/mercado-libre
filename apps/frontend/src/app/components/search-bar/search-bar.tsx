@@ -3,12 +3,15 @@ import { getItemsList } from '../../services/api';
 import { List } from '../../models/models';
 
 import './search-bar.scss';
+import clsx from 'clsx';
 
 type Params = {
   onSearch: (list: List) => void;
+  className: string;
 };
 
-const SearchBar = ({ onSearch }: Params) => {
+const SearchBar = ({ className, onSearch }: Params) => {
+  const barClasses = clsx('search-bar', className);
   const [search, setSearch] = useState('');
   const getList = async () => {
     try {
@@ -19,7 +22,7 @@ const SearchBar = ({ onSearch }: Params) => {
     }
   };
   return (
-    <div className="search-bar">
+    <div className={barClasses}>
       <input
         className="search-bar__input"
         placeholder="Nunca dejes de buscar"
