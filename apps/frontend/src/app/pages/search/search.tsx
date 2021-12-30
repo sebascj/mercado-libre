@@ -1,30 +1,40 @@
 import { useState } from 'react';
+
 import SearchBar from '../../components/search-bar/search-bar';
 import './search.scss';
 
 import { List, Item } from '../../models/models';
+import { useHistory } from 'react-router-dom';
 
 const ItemBox = ({ item }: { item: Item }) => {
+  const history = useHistory();
   const parseAmount = (amount: number): string => {
     const parsedAmount = new Intl.NumberFormat()
       .format(amount)
       .replace(',', '.');
     return parsedAmount;
   };
-
+  const goToDetails = () => {
+    history.push(`/items/${item.id}`);
+  };
   return (
     <>
       <div className="result">
-        <img className="result__image" src={item.picture} alt="Result" />
+        <img
+          onClick={goToDetails}
+          className="result__image"
+          src={item.picture}
+          alt="Result"
+        />
         <div>
-          <div className="result__price">
+          <div onClick={goToDetails} className="result__price">
             <span>{item.price.currency}</span>
             <span>{parseAmount(item.price.amount)}</span>
             {item.free_shipping && (
               <img src="../../assets/ic_shipping.png" alt="free shipping"></img>
             )}
           </div>
-          <div>
+          <div onClick={goToDetails} className="result__title">
             <span>{item.title}</span>
             <span className="result__condition">{item.condition}</span>
           </div>

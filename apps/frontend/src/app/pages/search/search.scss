@@ -36,12 +36,14 @@
     height: 18rem;
     border-radius: 4px;
     margin-right: var(--gutter);
+    cursor: pointer;
   }
   &__price {
     margin-top: var(--gutter);
     margin-bottom: calc(var(--gutter) * 2);
     display: flex;
     align-items: center;
+    cursor: pointer;
     span {
       margin-right: 0.5rem;
     }
@@ -49,5 +51,8 @@
   &__condition {
     display: block;
     text-transform: capitalize;
+  }
+  &__title {
+    cursor: pointer;
   }
 }
