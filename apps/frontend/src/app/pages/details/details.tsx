@@ -56,7 +56,9 @@ const Details = () => {
       <div className="details__body">
         <div className="details__box">
           <div className="details__wrapper">
-            <img className="details__image" src={details.item.picture} />
+            <div className="details__image">
+              <img src={details.item.picture} />
+            </div>
             <div className="details__info">
               <span className="details__condition">
                 {mapCondition(details.item.condition)}&nbsp;-&nbsp;
