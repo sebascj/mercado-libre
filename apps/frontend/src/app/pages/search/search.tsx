@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { List, Item } from '../../models/models';
-import SearchBar from '../../components/search-bar/search-bar';
+import Header from '../../components/header/header';
 
 import './search.scss';
 
@@ -63,14 +63,7 @@ const Search = () => {
 
   return (
     <>
-      <header className="search__header">
-        <img
-          className="search__logo"
-          src="../../assets/Logo_ML@2x.png"
-          alt="Logo"
-        />
-        <SearchBar className="search__bar" onSearch={onSearch} />
-      </header>
+      <Header onSearch={onSearch} />
       <div className="search__body">{listTemplate}</div>
     </>
   );
