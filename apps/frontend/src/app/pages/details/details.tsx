@@ -64,7 +64,7 @@ const Details = () => {
                 {mapCondition(details.item.condition)}&nbsp;-&nbsp;
                 {details.item.sold_quantity} vendidos
               </span>
-              <span className="details__title">{details.item.title}</span>
+              <div className="details__title">{details.item.title}</div>
               <div className="details__price">
                 <span>
                   {parseSymbol(currencies, details.item.price.currency)}
@@ -79,9 +79,9 @@ const Details = () => {
               <button className="details__button">Comprar</button>
             </div>
           </div>
-          <div>
-            <div>Descripción del producto</div>
-            {details.item.description}
+          <div className="description">
+            <div className="description__title">Descripción del producto</div>
+            <div className="description__body">{details.item.description}</div>
           </div>
         </div>
       </div>
