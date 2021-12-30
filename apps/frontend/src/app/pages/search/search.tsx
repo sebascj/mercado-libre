@@ -1,10 +1,9 @@
 import { useState } from 'react';
-
-import SearchBar from '../../components/search-bar/search-bar';
-import './search.scss';
-
-import { List, Item } from '../../models/models';
 import { useHistory } from 'react-router-dom';
+import { List, Item } from '../../models/models';
+import SearchBar from '../../components/search-bar/search-bar';
+
+import './search.scss';
 
 const ItemBox = ({ item }: { item: Item }) => {
   const history = useHistory();
