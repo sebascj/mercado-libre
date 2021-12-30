@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { getItemsList } from '../../services/api';
 import { List } from '../../models/models';
 
@@ -21,6 +21,11 @@ const SearchBar = ({ className, onSearch }: Params) => {
       console.error(e);
     }
   };
+  const handleSearch = (e: KeyboardEvent) => {
+    if (e.code === 'Enter') {
+      getList();
+    }
+  };
   return (
     <div className={barClasses}>
       <input
@@ -31,6 +36,7 @@ const SearchBar = ({ className, onSearch }: Params) => {
         onChange={(e) => {
           setSearch(e.target.value);
         }}
+        onKeyDown={handleSearch}
       ></input>
       <button
         className="search-bar__button"

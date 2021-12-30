@@ -5,10 +5,30 @@ import './search.scss';
 import { List, Item } from '../../models/models';
 
 const ItemBox = ({ item }: { item: Item }) => {
+  const parseAmount = (amount: number): string => {
+    const parsedAmount = new Intl.NumberFormat()
+      .format(amount)
+      .replace(',', '.');
+    return parsedAmount;
+  };
+
   return (
     <>
       <div className="result">
         <img className="result__image" src={item.picture} alt="Result" />
+        <div>
+          <div className="result__price">
+            <span>{item.price.currency}</span>
+            <span>{parseAmount(item.price.amount)}</span>
+            {item.free_shipping && (
+              <img src="../../assets/ic_shipping.png" alt="free shipping"></img>
+            )}
+          </div>
+          <div>
+            <span>{item.title}</span>
+            <span className="result__condition">{item.condition}</span>
+          </div>
+        </div>
       </div>
       <hr className="search__hr" />
     </>

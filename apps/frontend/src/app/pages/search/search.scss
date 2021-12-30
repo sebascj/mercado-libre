@@ -24,12 +24,30 @@
   &__hr {
     border: 1px solid var(--gray);
     margin: var(--gutter) 0;
+    &:last-child {
+      display: none;
+    }
   }
 }
 .result {
+  display: flex;
   &__image {
     width: 18rem;
     height: 18rem;
     border-radius: 4px;
+    margin-right: var(--gutter);
+  }
+  &__price {
+    margin-top: var(--gutter);
+    margin-bottom: calc(var(--gutter) * 2);
+    display: flex;
+    align-items: center;
+    span {
+      margin-right: 0.5rem;
+    }
+  }
+  &__condition {
+    display: block;
+    text-transform: capitalize;
   }
 }
