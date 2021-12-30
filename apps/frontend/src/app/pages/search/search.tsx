@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { List, Item } from '../../models/models';
+import { List, Item, Currency } from '../../models/models';
+import { parseAmount, parseSymbol } from '../../utils/utils';
 import Header from '../../components/header/header';
+import { getCurrencies } from '../../services/api';
 
 import './search.scss';
 
-const ItemBox = ({ item }: { item: Item }) => {
+const ItemBox = ({
+  item,
+  currencies,
+}: {
+  item: Item;
+  currencies: Currency[];
+}) => {
   const history = useHistory();
-  const parseAmount = (amount: number): string => {
-    const parsedAmount = new Intl.NumberFormat()
-      .format(amount)
-      .replace(',', '.');
-    return parsedAmount;
-  };
   const goToDetails = () => {
     history.push(`/items/${item.id}`);
   };
@@ -27,7 +29,7 @@ const ItemBox = ({ item }: { item: Item }) => {
         />
         <div>
           <div onClick={goToDetails} className="result__price">
-            <span>{item.price.currency}</span>
+            <span>{parseSymbol(currencies, item.price.currency)}</span>
             <span>{parseAmount(item.price.amount)}</span>
             {item.free_shipping && (
               <img src="../../assets/ic_shipping.png" alt="free shipping"></img>
@@ -46,16 +48,34 @@ const ItemBox = ({ item }: { item: Item }) => {
 
 const Search = () => {
   const [list, setList] = useState<List>();
+  const [currencies, setCurrencies] = useState<Currency[]>([
+    {
+      id: 'USD',
+      symbol: 'U$S',
+      description: 'Dólar',
+      decimal_places: 2,
+    },
+  ]);
   const onSearch = (list: List) => {
     setList(list);
   };
+
+  useEffect(() => {
+    getCurrencies()
+      .then((currencies) => {
+        setCurrencies(currencies);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
 
   let listTemplate;
   if (list) {
     listTemplate = (
       <div className="search__box">
         {list.items.map((item: Item, index) => (
-          <ItemBox key={'item_' + index} item={item} />
+          <ItemBox key={'item_' + index} item={item} currencies={currencies} />
         ))}
       </div>
     );

@@ -1,4 +1,4 @@
-import { List } from '../models/models';
+import { List, Details, Currency } from '../models/models';
 
 const baseApi = 'http://localhost:3333';
 
@@ -26,4 +26,15 @@ const getItemsList = ({ search = '' }: { search: string }): Promise<List> => {
   const resource = `items?search=${search}&limit=4`;
   return baseRequest({ resource });
 };
-export { getItemsList };
+
+const getItemDetails = ({ id }: { id: string }): Promise<Details> => {
+  const resource = `items/${id}`;
+  return baseRequest({ resource });
+};
+
+const getCurrencies = (): Promise<Currency[]> => {
+  const resource = 'currencies';
+  return baseRequest({ resource });
+};
+
+export { getItemsList, getItemDetails, getCurrencies };

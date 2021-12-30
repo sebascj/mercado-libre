@@ -4,7 +4,7 @@ export type Item = {
   price: {
     currency: string;
     amount: number;
-    decimals: number | null;
+    decimals: number;
   };
   picture: string;
   condition: string;
@@ -29,4 +29,11 @@ export type Details = {
   };
   category: string;
   item: Item;
+};
+
+export type Currency = {
+  id: string;
+  symbol: string;
+  description: string;
+  decimal_places: number;
 };

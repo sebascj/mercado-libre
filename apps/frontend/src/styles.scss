@@ -8,7 +8,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-width: 375px;
+  min-width: 37.5rem;
 }
 html {
   font-size: 62.5%;
@@ -16,6 +16,7 @@ html {
 body {
   font-size: 1.6rem;
   font-family: 'Open Sans', sans-serif;
+  background-color: var(--gray);
 }
 
 :root {
@@ -24,6 +25,7 @@ body {
   --gray-200: #333333;
 
   --yellow: #ffe600;
+  --blue: #3483fa;
 
   --gutter: 1.6rem;
 }

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import { getItemsList, getItemDetail } from './base/base';
+import { getItemsList, getItemDetail, getCurrenciesList } from './base/base';
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -23,11 +23,21 @@ app.get('/items', async (req, res) => {
     res.status(e.statusCode || 500).send({ message: e.message });
   }
 });
+
 app.get('/items/:id', async (req, res) => {
   try {
     const id: string = req.params.id;
     const itemDetail = await getItemDetail(id);
     res.send(itemDetail);
+  } catch (e) {
+    res.status(e.statusCode || 500).send({ message: e.message });
+  }
+});
+
+app.get('/currencies', async (req, res) => {
+  try {
+    const currencies = await getCurrenciesList();
+    res.send(currencies);
   } catch (e) {
     res.status(e.statusCode || 500).send({ message: e.message });
   }

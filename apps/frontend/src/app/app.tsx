@@ -1,4 +1,3 @@
-import styles from './app.module.scss';
 import Details from './pages/details/details';
 import Search from './pages/search/search';
 

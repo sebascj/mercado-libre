@@ -1,5 +1,5 @@
 import * as https from 'https';
-import { List, Item, Details } from '../models/models';
+import { List, Item, Details, Currency } from '../models/models';
 import { parsePrice } from '../utils/utils';
 
 const baseApi = 'https://api.mercadolibre.com';
@@ -160,4 +160,9 @@ const getItemDetail = (id: string): Promise<Details> => {
   });
 };
 
-export { getItemsList, getItemDetail };
+const getCurrenciesList = (): Promise<Currency[]> => {
+  const url = `${baseApi}/currencies/`;
+  return getRequest(url);
+};
+
+export { getItemsList, getItemDetail, getCurrenciesList };

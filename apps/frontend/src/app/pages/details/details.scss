@@ -1,0 +1,48 @@
+.details {
+  &__body {
+    padding: 1rem 8rem;
+  }
+  &__box {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background-color: white;
+    padding: var(--gutter);
+  }
+  &__image {
+    width: 30rem;
+  }
+  &__wrapper {
+    display: flex;
+  }
+  &__info {
+    max-width: 30rem;
+  }
+  &__condition {
+    display: block;
+    font-size: 1.4rem;
+  }
+  &__title {
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
+  &__price {
+    font-size: 4.6rem;
+    display: flex;
+    // span:first-child {
+    //   margin-right: 0.5rem;
+    // }
+    &--decimal {
+      font-size: 2.3rem;
+      vertical-align: super;
+    }
+  }
+  &__button {
+    border: none;
+    padding: 1rem 8rem;
+    font-size: 1.6rem;
+    color: white;
+    background-color: var(--blue);
+    border-radius: 2px;
+    cursor: pointer;
+  }
+}
