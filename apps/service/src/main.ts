@@ -13,7 +13,6 @@ app.use(jsonParser);
 app.use(cors(corsOptions));
 
 app.get('/items', async (req, res) => {
-  console.log(req.query);
   try {
     const query: string = req.query.search as string;
     const limit: string = req.query.limit as string;
