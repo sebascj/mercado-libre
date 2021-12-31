@@ -6,6 +6,7 @@ import Header from '../../components/header/header';
 import { getCurrencies } from '../../services/api';
 
 import './search.scss';
+import BreadCrumb from '../../components/breadcrumb/breadcrumb';
 
 const ItemBox = ({
   item,
@@ -84,8 +85,12 @@ const Search = () => {
   return (
     <>
       <Header onSearch={onSearch} />
-      <div className="search__body">{listTemplate}</div>
+      <div className="search__body">
+        {list && <BreadCrumb path={list.categories} />}
+        {listTemplate}
+      </div>
     </>
   );
 };
+
 export default Search;

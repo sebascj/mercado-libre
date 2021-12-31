@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
+import BreadCrumb from '../../components/breadcrumb/breadcrumb';
 
 import { getCurrencies, getItemDetails } from '../../services/api';
 
@@ -54,6 +55,7 @@ const Details = () => {
   if (details) {
     detailsTemplate = (
       <div className="details__body">
+        <BreadCrumb path={details.categories} />
         <div className="details__box">
           <div className="details__wrapper">
             <div className="details__image">

@@ -1,0 +1,14 @@
+.breadcrumb {
+  margin: var(--gutter) 0;
+  &__category {
+    font-size: 1.4rem;
+    color: var(--gray-100);
+  }
+}
+.breadcrumb__category:not(:last-child)::after {
+  content: '>';
+  margin: 0 var(--gutter);
+}
+.breadcrumb__category:last-child {
+  font-weight: bold;
+}

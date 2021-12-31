@@ -108,7 +108,7 @@ const getItemsList = (query: string, limit: string): Promise<List> => {
 const getItemDetail = (id: string): Promise<Details> => {
   return new Promise((resolve, reject) => {
     const url = `${baseApi}/items/${id}`;
-    let category = '';
+    let categories = [];
     let item: Item;
     getRequest(url)
       .then(
@@ -140,8 +140,12 @@ const getItemDetail = (id: string): Promise<Details> => {
           return getCategory(category_id);
         }
       )
-      .then((categoryData: { name: string }) => {
-        category = categoryData.name;
+      .then((categoryData: { path_from_root: { name: string }[] }) => {
+        if (categoryData && categoryData.path_from_root) {
+          categories = categoryData.path_from_root.map((path) => {
+            return path.name;
+          });
+        }
         return getDescription(id);
       })
       .then((descriptionData: { plain_text: string }) => {
@@ -151,7 +155,7 @@ const getItemDetail = (id: string): Promise<Details> => {
             name: 'Sebastian',
             lastname: 'Clavijo',
           },
-          category,
+          categories,
           item,
         };
         resolve(details);

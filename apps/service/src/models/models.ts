@@ -27,7 +27,7 @@ export type Details = {
     name: string;
     lastname: string;
   };
-  category: string;
+  categories: string[];
   item: Item;
 };
 
