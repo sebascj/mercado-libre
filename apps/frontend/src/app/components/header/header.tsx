@@ -1,5 +1,6 @@
 import SearchBar from '../search-bar/search-bar';
 import { List } from '../../models/models';
+import { Link } from 'react-router-dom';
 
 import './header.scss';
 
@@ -10,11 +11,13 @@ type Params = {
 const Header = ({ onSearch }: Params) => {
   return (
     <header className="header">
-      <img
-        className="header__logo"
-        src="../../assets/Logo_ML@2x.png"
-        alt="Logo"
-      />
+      <Link to="/">
+        <img
+          className="header__logo"
+          src="../../assets/Logo_ML@2x.png"
+          alt="Logo"
+        />
+      </Link>
       <SearchBar className="header__bar" onSearch={onSearch} />
     </header>
   );
