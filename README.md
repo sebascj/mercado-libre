@@ -6,12 +6,32 @@ Node Version: 16
 
 ## Service
 
-```bash
-npx nx run service:serve
+`npx nx run service:serve`
+
+- running on localhost:3333
+
+```javascript
+/**
+ * http://localhost:3333/items?search=laptop
+ * */
+
+{
+  "author": {
+    "name": "Sebastian",
+    "lastname": "Clavijo"
+  },
+  "categories": [
+    "Computación",
+    "Laptops y Accesorios",
+    "Notebooks"
+  ],
+  "items": [...]
+}
+
 ```
 
 ## Frontend
 
-```bash
-npx nx run frontend:serve
-```
+`npx nx run frontend:serve`
+
+- running on localhost:4200
