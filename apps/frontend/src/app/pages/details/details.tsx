@@ -21,9 +21,7 @@ const Details = () => {
       decimal_places: 2,
     },
   ]);
-  const onSearch = (list: List) => {
-    console.log(list);
-  };
+  const onSearch = (list: List) => {};
   const getDetails = async () => {
     try {
       const details = await getItemDetails({ id });
