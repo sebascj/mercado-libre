@@ -1,4 +1,5 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState, useEffect, useMemo, KeyboardEvent } from 'react';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { getItemsList } from '../../services/api';
 import { List } from '../../models/models';
 
@@ -10,22 +11,50 @@ type Params = {
   className: string;
 };
 
+const useQuery = () => {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+};
+
 const SearchBar = ({ className, onSearch }: Params) => {
   const barClasses = clsx('search-bar', className);
   const [search, setSearch] = useState('');
-  const getList = async () => {
-    try {
-      const itemsList = await getItemsList({ search });
-      onSearch(itemsList);
-    } catch (e) {
-      console.error(e);
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const query = useQuery();
+
+  const getList = async (queryString?: string) => {
+    const searchParams = queryString || search;
+    if (id) {
+      redirectToListView(searchParams);
+    } else {
+      try {
+        const itemsList = await getItemsList({ search: searchParams });
+        history.push({ search: `search=${searchParams}` });
+        onSearch(itemsList);
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
+
+  const redirectToListView = (search: string) => {
+    history.push(`/items?search=${search}`);
+  };
+
   const handleSearch = (e: KeyboardEvent) => {
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' && search) {
       getList();
     }
   };
+
+  useEffect(() => {
+    const searchParam = query.get('search');
+    if (searchParam && !id) {
+      getList(searchParam);
+    }
+  }, []);
+
   return (
     <div className={barClasses}>
       <input
@@ -40,7 +69,9 @@ const SearchBar = ({ className, onSearch }: Params) => {
       ></input>
       <button
         className="search-bar__button"
-        onClick={getList}
+        onClick={() => {
+          getList();
+        }}
         disabled={!search}
       >
         <img
